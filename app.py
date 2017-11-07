@@ -24,7 +24,7 @@ def callback_mock_get():
 @app.route('/callback', methods=["POST"])
 def callback_mock_post():
     ts = strftime('%Y-%b-%d %H:%M:%S')
-    logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.data))
+    logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.form))
     return MOCKED_RESPONSE, {'Content-Type': 'application/xml'}
 
 
@@ -33,6 +33,11 @@ def view_log():
     with open("app.log") as log_file:
         str_log = "<br/>".join(line.strip("\n") for line in log_file.readlines())
         return str_log
+
+
+@app.route('/flush_log', methods=["POST"])
+def flush_log():
+    open("app.log", 'w').close()
 
 
 if __name__ == '__main__':
