@@ -10,6 +10,12 @@ MOCKED_RESPONSE = """<?xml version="1.0" encoding="UTF-8"?>
 </callbacks_payment_response>
 """
 
+ERROR_RESPONSE = """<?xml version="1.0" encoding="UTF-8"?>
+<ns2:error_response xmlns:ns2='http://api.forticom.com/1.0/'>
+    <error_code>1001</error_code>
+    <error_msg>CALLBACK_INVALID_PAYMENT : Payment is invalid and can not be processed</error_msg>
+</ns2:error_response>
+"""
 
 app = Flask(__name__)
 
@@ -26,6 +32,20 @@ def callback_mock_post():
     ts = strftime('%Y-%b-%d %H:%M:%S')
     logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.form))
     return MOCKED_RESPONSE, {'Content-Type': 'application/xml'}
+
+
+@app.route('/callback_error', methods=["GET"])
+def callback_error_mock_get():
+    ts = strftime('%Y-%b-%d %H:%M:%S')
+    logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.args))
+    return ERROR_RESPONSE, {'Content-Type': 'application/xml', 'Invocation-error': 1001}
+
+
+@app.route('/callback_error', methods=["POST"])
+def callback_error_mock_post():
+    ts = strftime('%Y-%b-%d %H:%M:%S')
+    logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.form))
+    return ERROR_RESPONSE, {'Content-Type': 'application/xml', 'Invocation-error': 1001}
 
 
 @app.route('/log', methods=["GET"])
