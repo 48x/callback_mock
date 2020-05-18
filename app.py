@@ -17,6 +17,8 @@ ERROR_RESPONSE = """<?xml version="1.0" encoding="UTF-8"?>
 </ns2:error_response>
 """
 
+BAD_PRODUCT_CODE = "product_error"
+
 app = Flask(__name__)
 
 
@@ -24,6 +26,8 @@ app = Flask(__name__)
 def callback_mock_get():
     ts = strftime('%Y-%b-%d %H:%M:%S')
     logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.args))
+    if request.args.get("product_code") == BAD_PRODUCT_CODE:
+        return ERROR_RESPONSE, {'Content-Type': 'application/xml', 'Invocation-error': 1001}
     return MOCKED_RESPONSE, {'Content-Type': 'application/xml'}
 
 
@@ -31,6 +35,8 @@ def callback_mock_get():
 def callback_mock_post():
     ts = strftime('%Y-%b-%d %H:%M:%S')
     logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.form))
+    if request.args.get("product_code") == BAD_PRODUCT_CODE:
+        return ERROR_RESPONSE, {'Content-Type': 'application/xml', 'Invocation-error': 1001}
     return MOCKED_RESPONSE, {'Content-Type': 'application/xml'}
 
 
