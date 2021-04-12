@@ -70,7 +70,7 @@ def flush_log():
 @app.route('/events', methods=["POST"])
 def callback_events():
     ts = strftime('%Y-%b-%d %H:%M:%S')
-    data = json.loads(request.data)
+    data = json.loads(request.data.decode("utf-8"))
     logger.debug("[EVENTS] [{}] [{}]: [{}]".format(ts, request.method, data))
     if data["webhookType"] == "CONFIRMATION":
         return "84fhwgrd", {'Content-Type': 'application/text'}
