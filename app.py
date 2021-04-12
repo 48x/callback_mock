@@ -1,4 +1,5 @@
 import logging
+import json
 from flask import Flask
 from flask import request
 from time import strftime
@@ -69,7 +70,7 @@ def flush_log():
 @app.route('/events', methods=["POST"])
 def callback_events():
     ts = strftime('%Y-%b-%d %H:%M:%S')
-    data = request.json
+    data = json.loads(request.data)
     logger.debug("[EVENTS] [{}] [{}]: [{}]".format(ts, request.method, data))
     if data["webhookType"] == "CONFIRMATION":
         return "84fhwgrd", {'Content-Type': 'application/text'}
