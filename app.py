@@ -66,6 +66,16 @@ def flush_log():
     open("app.log", 'w').close()
 
 
+@app.route('/events', methods=["POST"])
+def callback_events():
+    ts = strftime('%Y-%b-%d %H:%M:%S')
+    data = request.json
+    logger.debug("[EVENTS] [{}] [{}]: [{}]".format(ts, request.method, data))
+    if data["webhookType"] == "CONFIRMATION":
+        return "84fhwgrd", {'Content-Type': 'application/text'}
+    return "OK", {'Content-Type': 'application/text'}
+
+
 if __name__ == '__main__':
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=3)
     logger = logging.getLogger('__name__')
