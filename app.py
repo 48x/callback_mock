@@ -11,6 +11,8 @@ MOCKED_RESPONSE = """<?xml version="1.0" encoding="UTF-8"?>
 </callbacks_payment_response>
 """
 
+MOCKED_RESPONSE_JSON = """true"""
+
 ERROR_RESPONSE = """<?xml version="1.0" encoding="UTF-8"?>
 <ns2:error_response xmlns:ns2='http://api.forticom.com/1.0/'>
     <error_code>1001</error_code>
@@ -39,6 +41,24 @@ def callback_mock_post():
     if request.args.get("product_code") == BAD_PRODUCT_CODE:
         return ERROR_RESPONSE, {'Content-Type': 'application/xml', 'Invocation-error': 1001}
     return MOCKED_RESPONSE, {'Content-Type': 'application/xml'}
+
+
+@app.route('/callback_json', methods=["GET"])
+def callback_mock_json_get():
+    ts = strftime('%Y-%b-%d %H:%M:%S')
+    logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.args))
+    if request.args.get("product_code") == BAD_PRODUCT_CODE:
+        return ERROR_RESPONSE, {'Content-Type': 'application/json', 'Invocation-error': 1001}
+    return MOCKED_RESPONSE_JSON, {'Content-Type': 'application/json'}
+
+
+@app.route('/callback_json', methods=["POST"])
+def callback_mock_json_post():
+    ts = strftime('%Y-%b-%d %H:%M:%S')
+    logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.form))
+    if request.args.get("product_code") == BAD_PRODUCT_CODE:
+        return ERROR_RESPONSE, {'Content-Type': 'application/json', 'Invocation-error': 1001}
+    return MOCKED_RESPONSE_JSON, {'Content-Type': 'application/json'}
 
 
 @app.route('/callback_error', methods=["GET"])
