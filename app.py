@@ -20,6 +20,13 @@ ERROR_RESPONSE = """<?xml version="1.0" encoding="UTF-8"?>
 </ns2:error_response>
 """
 
+ERROR_RESPONSE_JSON = """{
+  "error_code": 1001,
+  "error_msg": "CALLBACK_INVALID_PAYMENT : Payment is invalid and can not be processed",
+  "error_data": null
+}
+"""
+
 BAD_PRODUCT_CODE = "product_error"
 
 app = Flask(__name__)
