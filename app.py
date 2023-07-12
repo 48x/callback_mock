@@ -55,7 +55,7 @@ def callback_mock_json_get():
     ts = strftime('%Y-%b-%d %H:%M:%S')
     logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.args))
     if request.args.get("product_code") == BAD_PRODUCT_CODE:
-        return ERROR_RESPONSE, {'Content-Type': 'application/json', 'Invocation-error': 1001}
+        return ERROR_RESPONSE_JSON, {'Content-Type': 'application/json', 'Invocation-error': 1001}
     return MOCKED_RESPONSE_JSON, {'Content-Type': 'application/json'}
 
 
@@ -64,7 +64,7 @@ def callback_mock_json_post():
     ts = strftime('%Y-%b-%d %H:%M:%S')
     logger.debug("[{}] [{}]: [{}]".format(ts, request.method, request.form))
     if request.args.get("product_code") == BAD_PRODUCT_CODE:
-        return ERROR_RESPONSE, {'Content-Type': 'application/json', 'Invocation-error': 1001}
+        return ERROR_RESPONSE_JSON, {'Content-Type': 'application/json', 'Invocation-error': 1001}
     return MOCKED_RESPONSE_JSON, {'Content-Type': 'application/json'}
 
 
